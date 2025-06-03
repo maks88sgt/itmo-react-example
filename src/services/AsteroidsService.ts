@@ -8,7 +8,6 @@ class AsteroidService {
 
     if (isGetRealAsteroids === "true") {
       const asteroids = await this.getRealAsteroids()
-      console.log("SSSSSSSSSSSSSSS", asteroids)
       return asteroids;
     }
     return this.generateAsteroids();

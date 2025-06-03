@@ -1,13 +1,10 @@
-import { useContext } from "react";
-import { AppStateContext } from "../App";
-import type { Asteroid } from "../lib/AstroidDTO";
-import Dino from "../assets/dino.svg"
+import type { Asteroid } from "../../lib/AstroidDTO";
+import { AsteroidAction } from "./AsteroidAction";
 
-export const AsteroidCard = (props: Asteroid) => {
 
-  const {isDangerous, name, distance, size, date} = props
+export const AsteroidCard = (props: Asteroid & {isKilometers: boolean; handleAddToDestroyment: ()=>void}) => {
 
-  const {isKilometers} = useContext<any>(AppStateContext)
+  const {isDangerous, name, distance, size, date, isKilometers, handleAddToDestroyment} = props
 
   return (
     <div className={`asteroid-card ${isDangerous ? "dangerous": "safe"}`}>
@@ -28,13 +25,7 @@ export const AsteroidCard = (props: Asteroid) => {
           </div>
         </div>
       </div>
-      <div className="asteroid-status">
-        <div className="status-label">
-          Оценка: <span className={`status-value ${isDangerous ? "danger": ""}`}>{isDangerous ? "опасен" : "не опасен"}</span>
-        </div>
-        <button className="destroy-button">На уничтожение</button>
-      </div>
-      <img src={Dino}/>
+      <AsteroidAction isDangerous={isDangerous} handleAddToDestroyment={handleAddToDestroyment}/>
     </div>
   );
 };

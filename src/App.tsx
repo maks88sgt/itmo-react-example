@@ -6,15 +6,23 @@ import {
 } from "react";
 import AsteroidService from "./services/AsteroidsService";
 import type { Asteroid } from "./lib/AstroidDTO";
-import { AsteroidCard } from "./components/AstroidCard";
-import { DistanceSwitch } from "./components/DistanceSwitch";
 import { Routes, Route, Navigate } from "react-router";
 import { AsteroidsPage } from "./pages/AsteroidPage";
 import { DestroymentPage } from "./pages/DestroymentPage";
 
+
+type AppState = {
+  isLoading: boolean,
+  asteroids: Asteroid[],
+  destroyment: Asteroid[],
+  isKilometers: boolean,
+  isOnlyDangerous: boolean,
+}
+
 const initialAppState = {
   isLoading: true,
   asteroids: [],
+  destroyment: [],
   isKilometers: true,
   isOnlyDangerous: false,
 };
@@ -24,9 +32,10 @@ export enum ActionTypes {
   ASTEROIDS = "astroids",
   KILOMETERS = "kilometers",
   DANGEROUS = "dangerous",
+  DESTROYMENT = "destroyment",
 }
 
-function appReducer(state: typeof initialAppState, action: { type: ActionTypes; payload: any }) {
+function appReducer(state: AppState, action: { type: ActionTypes; payload: any }) {
   switch (action.type) {
     case ActionTypes.LOADING:
       return { ...state, isLoading: action.payload };
@@ -36,12 +45,14 @@ function appReducer(state: typeof initialAppState, action: { type: ActionTypes; 
       return { ...state, isKilometers: action.payload };
     case ActionTypes.DANGEROUS:
       return { ...state, isOnlyDangerous: action.payload };
+    case ActionTypes.DESTROYMENT:
+      return { ...state, destroyment: [...state.destroyment, action.payload]};
     default:
       return state;
   }
 }
 
-export const AppStateContext = createContext(initialAppState);
+export const AppStateContext = createContext<AppState>(initialAppState);
 export const DispatchContext = createContext<any>(null);
 
 function App() {

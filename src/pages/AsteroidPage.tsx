@@ -1,33 +1,41 @@
 import { useContext, useRef } from "react";
-import { AsteroidCard } from "../components/AstroidCard";
 import { DistanceSwitch } from "../components/DistanceSwitch";
 import type { Asteroid } from "../lib/AstroidDTO";
-import { AppStateContext } from "../App";
+import { ActionTypes, AppStateContext, DispatchContext } from "../App";
 import { Link } from "react-router";
+import { AsteroidCardContainer } from "../components/asteroid-card/AsteroidCardContainer";
+import { AsteroidsList } from "../components/AsteroidsList";
 
 export const AsteroidsPage = () => {
-  const { isLoading, asteroids } = useContext<any>(AppStateContext);
+  const { isLoading, asteroids, isOnlyDangerous } =
+    useContext<any>(AppStateContext);
+  const { dispatch } = useContext(DispatchContext);
   const ref = useRef<HTMLDivElement>(null);
   return (
     <>
-    <nav>
+      <nav>
         <Link to="/asteroids">Asteroids</Link>
         <Link to="/destroyment">Destroyment</Link>
-    </nav>
+      </nav>
       <div className="filters" ref={ref}>
-        <div className="filter-checkbox">
-          <input type="checkbox" id="dangerous-only" />
+        <div
+          className="filter-checkbox"
+         
+        >
+          <input type="checkbox" id="dangerous-only" checked={isOnlyDangerous}  onChange={() => {
+            dispatch({ type: ActionTypes.DANGEROUS, payload: !isOnlyDangerous });
+          }}/>
           <label htmlFor="dangerous-only">Показать только опасные</label>
         </div>
         <DistanceSwitch />
       </div>
       <div>
-        {isLoading
-          ? "Loading ... "
-          : asteroids?.map((asteroid: Asteroid) => {
-              return <AsteroidCard key={asteroid.name} {...asteroid} />;
-            })}
-
+        <AsteroidsList
+          asteroids={
+            isOnlyDangerous ? asteroids.filter((it: Asteroid) => it.isDangerous) : asteroids
+          }
+          isLoading={isLoading}
+        />
         <button
           className="go-to-top"
           onClick={() => {
