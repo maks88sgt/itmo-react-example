@@ -1,5 +1,6 @@
 import { memo } from "react";
 import Dino from "../../assets/dino.svg";
+import { Button } from "@mui/material";
 
 export const AsteroidAction = memo(
   ({
@@ -18,9 +19,7 @@ export const AsteroidAction = memo(
               {isDangerous ? "опасен" : "не опасен"}
             </span>
           </div>
-          <button className="destroy-button" onClick={handleAddToDestroyment}>
-            На уничтожение
-          </button>
+          <Button onClick={handleAddToDestroyment} variant="contained" color="error">На уничтожение</Button>
         </div>
         <img src={Dino} />
       </>

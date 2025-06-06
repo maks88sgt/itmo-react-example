@@ -1,17 +1,13 @@
-import {
-  createContext,
-  useEffect,
-  useReducer,
-  useRef,
-} from "react";
-import AsteroidService from "./services/AsteroidsService";
 import type { Asteroid } from "./lib/AstroidDTO";
 import { Routes, Route, Navigate } from "react-router";
 import { AsteroidsPage } from "./pages/AsteroidPage";
 import { DestroymentPage } from "./pages/DestroymentPage";
+import { AppNavigation } from "./components/AppNavigation";
+import { StoreProvider } from "./state/StoreProvider";
+import Store from "./state/store";
 
 
-type AppState = {
+export type AppState = {
   isLoading: boolean,
   asteroids: Asteroid[],
   destroyment: Asteroid[],
@@ -36,52 +32,39 @@ export enum ActionTypes {
 }
 
 function appReducer(state: AppState, action: { type: ActionTypes; payload: any }) {
+  console.log(action)
   switch (action.type) {
     case ActionTypes.LOADING:
-      return { ...state, isLoading: action.payload };
+      state.isLoading = action.payload
+      return state;
     case ActionTypes.ASTEROIDS:
-      return { ...state, asteroids: action.payload };
+      state.asteroids = action.payload
+      return state;
     case ActionTypes.KILOMETERS:
-      return { ...state, isKilometers: action.payload };
+      state.isKilometers = action.payload
+      return state;
     case ActionTypes.DANGEROUS:
-      return { ...state, isOnlyDangerous: action.payload };
+      state.isOnlyDangerous = action.payload
+      return state;
     case ActionTypes.DESTROYMENT:
-      return { ...state, destroyment: [...state.destroyment, action.payload]};
+      state.destroyment = action.payload
+      return state;
     default:
       return state;
   }
 }
 
-export const AppStateContext = createContext<AppState>(initialAppState);
-export const DispatchContext = createContext<any>(null);
-
 function App() {
 
-  const [state, dispatch] = useReducer(appReducer, initialAppState)
-
-
-  useEffect(() => {
-    AsteroidService.getAsteroids().then((result) => {
-      dispatch({type: ActionTypes.LOADING, payload: false});
-      dispatch({type: ActionTypes.ASTEROIDS, payload: result});
-    });
-  }, []);
 
   return (
-    <AppStateContext.Provider
-      value={state}
-    >
-      <DispatchContext.Provider
-      value={{dispatch}}
-    >
+    <StoreProvider store={new Store<AppState, { type: ActionTypes; payload: any }>(initialAppState, appReducer)}>
+      <AppNavigation/>
     <Routes>
       <Route path="/asteroids" element={<AsteroidsPage />} />
       <Route path="/destroyment" element={<DestroymentPage />} />
       <Route path="*" element={<Navigate to="/asteroids" />} />
-    </Routes>
-
-          </DispatchContext.Provider>
-    </AppStateContext.Provider>
+    </Routes></StoreProvider>
   );
 }
 

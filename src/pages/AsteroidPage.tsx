@@ -1,22 +1,34 @@
-import { useContext, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { DistanceSwitch } from "../components/DistanceSwitch";
 import type { Asteroid } from "../lib/AstroidDTO";
-import { ActionTypes, AppStateContext, DispatchContext } from "../App";
+import { ActionTypes, type AppState } from "../App";
 import { Link } from "react-router";
-import { AsteroidCardContainer } from "../components/asteroid-card/AsteroidCardContainer";
 import { AsteroidsList } from "../components/AsteroidsList";
+import { useStore } from "../state/StoreProvider";
+import AsteroidService from "../services/AsteroidsService";
+import { useSelector } from "../state/useSelector";
 
 export const AsteroidsPage = () => {
-  const { isLoading, asteroids, isOnlyDangerous } =
-    useContext<any>(AppStateContext);
-  const { dispatch } = useContext(DispatchContext);
+  const store = useStore<AppState, { type: ActionTypes; payload: any }>()
+
+  const {dispatch} = store
+
+  const isLoading = useSelector((state: AppState)=>state.isLoading)
+  const asteroids = useSelector((state: AppState)=>state.asteroids)
+  const isOnlyDangerous = useSelector((state: AppState)=>state.isOnlyDangerous)
+
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    AsteroidService.getAsteroids().then((result:Asteroid[]) => {
+      dispatch({type: ActionTypes.LOADING, payload: false});
+      dispatch({type: ActionTypes.ASTEROIDS, payload: result});
+    });
+  }, []);
+
+
   return (
     <>
-      <nav>
-        <Link to="/asteroids">Asteroids</Link>
-        <Link to="/destroyment">Destroyment</Link>
-      </nav>
       <div className="filters" ref={ref}>
         <div
           className="filter-checkbox"

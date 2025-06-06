@@ -1,10 +1,13 @@
-import { useContext } from "react"
-import { AppStateContext, DispatchContext, ActionTypes } from "../App"
+import {  ActionTypes, type AppState } from "../App"
+import { useStore } from "../state/StoreProvider";
+import { useSelector } from "../state/useSelector";
 
 export const DistanceSwitch = ()=>{
-
-    const {isKilometers} = useContext<any>(AppStateContext)
-    const {dispatch} = useContext<any>(DispatchContext)
+const store = useStore<AppState, { type: ActionTypes; payload: any }>()
+ 
+   const {dispatch, } = store
+ 
+     const isKilometers = useSelector((state: AppState)=>state.isKilometers)
 
     return <div className="filter-distance">
           <span onClick={()=>dispatch({type: ActionTypes.KILOMETERS, payload: true})} className={`distance-unit ${isKilometers ? "selected" : ""}`}>Расстояние в километрах</span>
