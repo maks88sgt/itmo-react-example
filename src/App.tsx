@@ -1,10 +1,12 @@
 import type { Asteroid } from "./lib/AstroidDTO";
 import { Routes, Route, Navigate } from "react-router";
-import { AsteroidsPage } from "./pages/AsteroidPage";
+import { AsteroidsPage } from "./pages/AsteroidsPage";
 import { DestroymentPage } from "./pages/DestroymentPage";
 import { AppNavigation } from "./components/AppNavigation";
 import { StoreProvider } from "./state/StoreProvider";
 import Store from "./state/store";
+import { AsteroidPage } from "./pages/AsteroidPage";
+import { ProfilePage } from "./pages/ProfilePage";
 
 
 export type AppState = {
@@ -63,6 +65,8 @@ function App() {
     <Routes>
       <Route path="/asteroids" element={<AsteroidsPage />} />
       <Route path="/destroyment" element={<DestroymentPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="asteroids/:asteroidId" element={<AsteroidPage />} />
       <Route path="*" element={<Navigate to="/asteroids" />} />
     </Routes></StoreProvider>
   );

@@ -1,7 +1,11 @@
 import type { Asteroid } from "../lib/AstroidDTO";
 
 class AsteroidService {
-  constructor() {}
+  private key: string
+  constructor() {
+    this.key = import.meta.env.VITE_SECRET_KEY || "DEMO_KEY";
+
+  }
 
   async getAsteroids(): Promise<Asteroid[]> {
     const isGetRealAsteroids = import.meta.env.VITE_GET_REAL_ASTEROIDS;
@@ -14,9 +18,9 @@ class AsteroidService {
   }
 
   async getRealAsteroids() {
-    const key = import.meta.env.VITE_SECRET_KEY || "DEMO_KEY";
+    
 
-    return await fetch(`https://api.nasa.gov/neo/rest/v1/feed?api_key=${key}`)
+    return await fetch(`https://api.nasa.gov/neo/rest/v1/feed?api_key=${this.key}`)
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -75,6 +79,21 @@ class AsteroidService {
       size: this.getRandomInt(50, 1500),
     };
   }
+
+
+  async getAsteroid(asteroidId: string){
+    return await fetch(`https://api.nasa.gov/neo/rest/v1/neo/${asteroidId}?api_key=${this.key}`)
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((result) => {
+        return result
+      })
+
+  }
+
 }
 
 const asteroidService = new AsteroidService();

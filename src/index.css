@@ -157,6 +157,7 @@ button:focus-visible {
   border-radius: 8px;
   min-height: 120px;
   margin-top: 3px;
+  cursor: pointer
 }
 
 .asteroid-card.safe {
