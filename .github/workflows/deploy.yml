@@ -25,6 +25,12 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Check files
+        run: ls .
+
+      - name: change directory
+        run: ls dist
+
       - name: Deploy to GHPages
         uses: peaceiris/actions-gh-pages@v4
         with:
