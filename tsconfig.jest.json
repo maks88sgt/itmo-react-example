@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "jsx": "react-jsx", // или "react" если используешь React <17
+    "isolatedModules": true,
+    "noEmit": true
+  },
+  "include": ["src", "jest.setup.js"]
+}

@@ -1,13 +1,12 @@
-import type { AppState } from "../../App";
 import type { Asteroid } from "../../lib/AstroidDTO";
-import { useSelector } from "../../state/useSelector";
 
 export const AsteroidDetails = ({
   distance,
   date,
   size,
-}: Pick<Asteroid, "date" | "distance" | "size">) => {
-  const isKilometers = useSelector((state: AppState) => state.isKilometers);
+  isKilometers
+}: Pick<Asteroid, "date" | "distance" | "size"> & {isKilometers: boolean}) => {
+  
   return (
     <div className="asteroid-details">
       <div className="detail-row">

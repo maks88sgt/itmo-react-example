@@ -1,14 +1,16 @@
 import type { Asteroid } from "../lib/AstroidDTO";
+import {config} from "../lib/config"
+import axios from "axios"
 
 class AsteroidService {
   private key: string
   constructor() {
-    this.key = import.meta.env.VITE_SECRET_KEY || "DEMO_KEY";
+    this.key = config.SECRET_KEY;
 
   }
 
   async getAsteroids(): Promise<Asteroid[]> {
-    const isGetRealAsteroids = import.meta.env.VITE_GET_REAL_ASTEROIDS;
+    const isGetRealAsteroids = config.GET_REAL_ASTEROIDS;
 
     if (isGetRealAsteroids === "true") {
       const asteroids = await this.getRealAsteroids()
@@ -18,18 +20,11 @@ class AsteroidService {
   }
 
   async getRealAsteroids() {
-    
-
-    return await fetch(`https://api.nasa.gov/neo/rest/v1/feed?api_key=${this.key}`)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
+    return await axios.get<undefined, {data: {near_earth_objects: any}}>(`https://api.nasa.gov/neo/rest/v1/feed`, {params: {api_key: this.key}})
       .then((result) => {
         let asteroids: Asteroid[] = [];
 
-        const ast = result.near_earth_objects;
+        const ast = result.data.near_earth_objects;
 
         for (let key in ast) {
           const mappedAsteroids = ast[key].map((item: any) => ({
@@ -82,16 +77,10 @@ class AsteroidService {
 
 
   async getAsteroid(asteroidId: string){
-    return await fetch(`https://api.nasa.gov/neo/rest/v1/neo/${asteroidId}?api_key=${this.key}`)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
+    return await axios.get(`https://api.nasa.gov/neo/rest/v1/neo/${asteroidId}?api_key=${this.key}`)
       .then((result) => {
-        return result
+        return result.data
       })
-
   }
 
 }
