@@ -6,4 +6,5 @@ import environmentPlugin from 'vite-plugin-env-compatible';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), svgr(), environmentPlugin()],
+  base: '/itmo-react-example/'
 })
