@@ -15,7 +15,6 @@ export const AsteroidCard = (
     distance,
     size,
     date,
-    id,
     handleAddToDestroyment,
     isKilometers,
     navigateTo

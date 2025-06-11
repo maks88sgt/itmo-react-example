@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { DistanceSwitch } from "../components/DistanceSwitch";
 import type { Asteroid } from "../lib/AstroidDTO";
 import { ActionTypes, type AppState } from "../App";
-import { Link } from "react-router";
 import { AsteroidsList } from "../components/AsteroidsList";
 import { useStore } from "../state/StoreProvider";
 import AsteroidService from "../services/AsteroidsService";

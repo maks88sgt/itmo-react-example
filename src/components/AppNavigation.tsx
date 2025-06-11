@@ -1,4 +1,4 @@
-import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Button, Tooltip, Avatar } from "@mui/material"
+import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Button, Avatar } from "@mui/material"
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 import {useState, type MouseEvent} from "react"
@@ -6,13 +6,11 @@ import { useNavigate } from "react-router";
 
 
 const pages = ['Asteroids', 'Destroyment'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
 export const AppNavigation = ()=>{
 
-    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
