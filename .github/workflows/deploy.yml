@@ -19,11 +19,8 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Check files
-        run: ls .
-
-      - name: Check current directory
-        run: pwd
+      - name: cope index.html
+        run: cp dist/index.html dist/404.html
 
       - name: Deploy to GHPages
         uses: peaceiris/actions-gh-pages@v4
@@ -32,5 +29,4 @@ jobs:
           publish_dir: ./dist
 
         
-      - name: change directory
-        run: ls dist
+      
