@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={createTheme({palette:{primary: {main: "#706975"}}})}>
-    <BrowserRouter>
+    <BrowserRouter basename='/itmo-react-example/'>
       <App />
     </BrowserRouter>
   </ThemeProvider>
