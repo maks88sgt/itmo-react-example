@@ -10,5 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        run: action/checkout@v4
+
+    steps:
       - name: Say hello
-        uses: echo "Say something from WORKFLOW"
+        run: echo "Say something from WORKFLOW"
