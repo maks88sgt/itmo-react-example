@@ -13,6 +13,5 @@ jobs:
       - name: Checkout code
         run: action/checkout@v4
 
-    steps:
       - name: Say hello
         run: echo "Say something from WORKFLOW"
