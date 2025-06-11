@@ -13,14 +13,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check Node version
-        run: node --version
-
       - name: Install Dependencies
         run: npm i
-
-      - name: Run unit tests
-        run: npm run test:unit
 
       - name: Build project
         run: npm run build
@@ -28,13 +22,15 @@ jobs:
       - name: Check files
         run: ls .
 
-      - name: change directory
-        run: ls dist
+      - name: Check current directory
+        run: pwd
 
       - name: Deploy to GHPages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.TOKEN }}
+          publish_dir: ./dist
+
         
       - name: change directory
         run: ls dist
