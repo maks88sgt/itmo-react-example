@@ -35,9 +35,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.TOKEN }}
-          publish_dir: ./dist
-          enable_jekyll: false
-          keep_files: false
-      
+        
       - name: change directory
         run: ls dist
